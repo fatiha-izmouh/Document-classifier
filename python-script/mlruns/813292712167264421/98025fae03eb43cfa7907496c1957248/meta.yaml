@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/developpement/document_classifier/python-script/mlruns/813292712167264421/98025fae03eb43cfa7907496c1957248/artifacts
+end_time: 1746695245539
+entry_point_name: ''
+experiment_id: '813292712167264421'
+lifecycle_stage: active
+run_id: 98025fae03eb43cfa7907496c1957248
+run_name: detect_text_oncf-voyages-fatiha_izmouh_(2).pdf
+run_uuid: 98025fae03eb43cfa7907496c1957248
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1746695245497
+status: 4
+tags: []
+user_id: izmou

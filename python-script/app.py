@@ -5,6 +5,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional, List
 from Model import detect_text_from_file
+import mlflow
+import time
 
 ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg'}
 MAX_FILE_SIZE = 10 * 1024 * 1024  # 10 MB
@@ -18,6 +20,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Set MLflow tracking URI
+mlflow.set_tracking_uri("file:///C:/developpement/document_classifier/python-script/mlruns")
+mlflow.set_experiment("Document_Text_Extraction")
 
 def allowed_file(filename: str) -> bool:
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -62,25 +68,49 @@ async def upload_pdf(file: UploadFile = File(...)):
     if len(file_data) > MAX_FILE_SIZE:
         raise HTTPException(status_code=400, detail="File size exceeds 10 MB")
 
-    # Call detect_text_from_file
-    detections, total_detections, total_confidence, _ = detect_text_from_file(file_data, filename)
-    extracted_text = "\n".join([det["text"] for det in detections])
+    # Start MLflow run
+    with mlflow.start_run(run_name=f"upload_{filename}_{int(time.time())}"):
+        # Log parameters
+        mlflow.log_param("filename", filename)
+        mlflow.log_param("file_size_mb", len(file_data) / (1024 * 1024))
+        mlflow.log_param("file_type", file.content_type)
 
-    print(f"Extracted text for {filename}: {extracted_text[:100]}...")
+        # Call detect_text_from_file
+        start_time = time.time()
+        detections, total_detections, total_confidence, _ = detect_text_from_file(file_data, filename)
+        extracted_text = "\n".join([det["text"] for det in detections])
+        processing_time = time.time() - start_time
 
-    if not extracted_text.strip():
-        raise HTTPException(status_code=500, detail="Text extraction failed or no text found")
+        print(f"Extracted text for {filename}: {extracted_text[:100]}...")
 
-    # Classify the text
-    classification = classify_text(extracted_text)
-    average_confidence = str(round(total_confidence / total_detections, 4)) if total_detections > 0 else "0"
+        if not extracted_text.strip():
+            raise HTTPException(status_code=500, detail="Text extraction failed or no text found")
 
-    return DocumentResponse(
-        document_name=filename,
-        content=extracted_text,
-        classification=classification,
-        confidence=average_confidence
-    )
+        # Classify the text
+        classification = classify_text(extracted_text)
+        average_confidence = str(round(total_confidence / total_detections, 4)) if total_detections > 0 else "0"
+
+        # Log metrics
+        mlflow.log_metric("processing_time_seconds", processing_time)
+        mlflow.log_metric("text_length", len(extracted_text))
+        mlflow.log_metric("total_detections", total_detections)
+        mlflow.log_metric("average_confidence", float(average_confidence))
+
+        # Log extracted text and classification as artifact
+        with open("extracted_text.txt", "w", encoding="utf-8") as f:
+            f.write(f"Extracted Text:\n{extracted_text}\n\nClassification: {classification}")
+        mlflow.log_artifact("extracted_text.txt")
+        os.remove("extracted_text.txt")
+
+        # Log classification
+        mlflow.log_param("classification", classification)
+
+        return DocumentResponse(
+            document_name=filename,
+            content=extracted_text,
+            classification=classification,
+            confidence=average_confidence
+        )
 
 @app.post("/detect-text-multiple/")
 async def detect_text_multiple(
@@ -92,39 +122,59 @@ async def detect_text_multiple(
     total_detections = 0
     total_confidence = 0
 
-    for file in files:
-        if not allowed_file(file.filename):
-            print(f"Skipping invalid file: {file.filename}")
-            continue
+    with mlflow.start_run(run_name=f"multi_upload_{int(time.time())}"):
+        for file in files:
+            if not allowed_file(file.filename):
+                print(f"Skipping invalid file: {file.filename}")
+                continue
 
-        filename = file.filename.replace(" ", "_")
-        file_data = await file.read()
+            filename = file.filename.replace(" ", "_")
+            file_data = await file.read()
 
-        # Validate file size
-        if len(file_data) > MAX_FILE_SIZE:
-            print(f"Skipping file {filename}: File size exceeds 10 MB")
-            continue
+            # Validate file size
+            if len(file_data) > MAX_FILE_SIZE:
+                print(f"Skipping file {filename}: File size exceeds 10 MB")
+                continue
 
-        # Call detect_text_from_file
-        detections, file_detections, file_confidence, image_base64 = detect_text_from_file(
-            file_data, filename, threshold=threshold, return_images=return_images
-        )
+            # Call detect_text_from_file
+            start_time = time.time()
+            detections, file_detections, file_confidence, image_base64 = detect_text_from_file(
+                file_data, filename, threshold=threshold, return_images=return_images
+            )
+            processing_time = time.time() - start_time
 
-        total_detections += file_detections
-        total_confidence += file_confidence
+            total_detections += file_detections
+            total_confidence += file_confidence
 
-        result = {
-            "filename": filename,
-            "detections": detections,
-            "image_base64": image_base64 if return_images else None
+            extracted_text = "\n".join([det["text"] for det in detections])
+            classification = classify_text(extracted_text) if extracted_text.strip() else "N/A"
+
+            result = {
+                "filename": filename,
+                "detections": detections,
+                "classification": classification,
+                "image_base64": image_base64 if return_images else None
+            }
+            results.append(result)
+
+        # Log parameters and metrics
+        mlflow.log_param("file_count", len(files))
+        mlflow.log_metric("total_detections", total_detections)
+        mlflow.log_metric("average_confidence", total_confidence / total_detections if total_detections > 0 else 0)
+        mlflow.log_metric("processing_time_seconds", processing_time)
+
+        # Log results as artifact
+        with open("multi_upload_results.txt", "w", encoding="utf-8") as f:
+            for result in results:
+                f.write(f"Filename: {result['filename']}\nClassification: {result['classification']}\n\n")
+        mlflow.log_artifact("multi_upload_results.txt")
+        os.remove("multi_upload_results.txt")
+
+        average_confidence = total_confidence / total_detections if total_detections > 0 else 0
+
+        return {
+            "status": "success",
+            "average_confidence": round(average_confidence, 4),
+            "total_detections": total_detections,
+            "results": results
         }
-        results.append(result)
-
-    average_confidence = total_confidence / total_detections if total_detections > 0 else 0
-
-    return {
-        "status": "success",
-        "average_confidence": round(average_confidence, 4),
-        "total_detections": total_detections,
-        "results": results
-    }

@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/developpement/document_classifier/python-script/mlruns/813292712167264421/9bdae3d5d9cc4eef90b04117ded951ca/artifacts
+end_time: 1746694839805
+entry_point_name: ''
+experiment_id: '813292712167264421'
+lifecycle_stage: active
+run_id: 9bdae3d5d9cc4eef90b04117ded951ca
+run_name: upload_oncf-voyages-fatiha_izmouh_(1).pdf_1746694839
+run_uuid: 9bdae3d5d9cc4eef90b04117ded951ca
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1746694839731
+status: 4
+tags: []
+user_id: izmou

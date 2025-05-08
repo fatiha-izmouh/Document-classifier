@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/developpement/document_classifier/python-script/mlruns/813292712167264421/0e998e436a054d9eb7b6884c8cedb66b/artifacts
+end_time: 1746693992411
+entry_point_name: ''
+experiment_id: '813292712167264421'
+lifecycle_stage: active
+run_id: 0e998e436a054d9eb7b6884c8cedb66b
+run_name: upload_Khayati_imane_GénieInformatique_VALIDE.pdf_1746693991
+run_uuid: 0e998e436a054d9eb7b6884c8cedb66b
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1746693992359
+status: 4
+tags: []
+user_id: izmou
