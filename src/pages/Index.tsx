@@ -58,8 +58,8 @@ const Index = () => {
       const actualResult = {
         filename: file.name,
         extractedText: data.content || 'No text extracted',
-        classification: 'N/A', // Adjust if your backend provides classification
-        confidence: 'N/A', // Adjust if your backend provides confidence
+        classification: data.classification || 'Unknown',
+        confidence: data.confidence || '0.0',
       };
 
       console.log('Setting result:', actualResult);
@@ -68,7 +68,6 @@ const Index = () => {
       alert('Document processed successfully!');
     } catch (error: unknown) {
       console.error('Error during analysis:', error);
-      // Type assertion to treat error as Error
       const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
       alert(`An error occurred: ${errorMessage}`);
     } finally {
@@ -168,7 +167,7 @@ const Index = () => {
                         Processing...
                       </>
                     ) : (
-                      'Extract Text'
+                      'Analyze Document'
                     )}
                   </button>
                 </div>
@@ -182,7 +181,7 @@ const Index = () => {
                 <div className="mx-auto w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
                 <p className="text-lg font-medium text-blue-700">Processing Document</p>
                 <p className="text-sm text-gray-500">
-                  Extracting text...
+                  Extracting text and classifying...
                 </p>
               </div>
             </div>
@@ -204,7 +203,7 @@ const Index = () => {
                   >
                     <path
                       fillRule="evenodd"
-                      d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0ざv7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                      d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
                       clipRule="evenodd"
                     />
                   </svg>

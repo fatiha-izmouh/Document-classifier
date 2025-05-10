@@ -1,0 +1,136 @@
+Extracted Text:
+ 
+  
+ 
+Cahier des charges   
+ 
+Table des matières  
+I. Introduction  ................................ ................................ ................................ ...............  3 
+1. Contexte et Problématique  ................................ ................................ .....................  3 
+2. Objectifs du Projet  ................................ ................................ ................................ .. 3 
+II. Présentation de l’entreprise  ................................ ................................ ........................  3 
+III. Cahier des charges  ................................ ................................ ................................ ... 4 
+1.Fonctionnalités attendues  ................................ ................................ .......................  4 
+2.Technologies Choisies  ................................ ................................ .............................  4 
+IV. Architecture et Conception de l'API  ................................ ................................ ............  5 
+1. Composants Principaux  ................................ ................................ ..........................  5 
+2. Flux de Données (détaillé)  ................................ ................................ .......................  5 
+3. Schéma de l'Architecture  ................................ ................................ ........................  6 
+4. Suggestion de l'Interface  ................................ ................................ .........................  7 
+5. Intégration de MLflow  ................................ ................................ .............................  7 
+6.Environnement de développement  ................................ ................................ ...........  7 
+ 
+   
+I. Introduction  
+1. Contexte et Problématique  
+Dans un contexte où les entreprises doivent traiter un volume croissant de documents 
+numériques aux formats variés (textes, tableaux, images intégrées), il devient crucial de 
+disposer d’une solution permettant d’extraire automatiquement les données pertine ntes et 
+de classifier ces documents selon leur nature ou finalité. Les méthodes manuelles étant 
+chronophages et sujettes à erreur, l’objectif est de mettre en place une solution intelligente 
+capable d’automatiser l’analyse documentaire tout en assurant pré cision, rapidité et 
+adaptabilité.  
+2. Objectifs du Projet  
+L'objectif principal est de concevoir une solution permettant d'extraire et de classifier 
+automatiquement le contenu des documents PDF pour en faciliter l'exploitation dans le 
+cadre décisionnel et opérationnel de l'entreprise.  
+• Automatisation du traitement documentaire  : Réduire significativement le travail 
+manuel.  
+• Précision accrue  : Assurer une extraction et une classification fiables.  
+• Intégration fluide  : Connecter facilement la solution aux systèmes internes 
+existants.  
+• Suivi et amélioration continue  : Implémenter un suivi des performances des 
+modèles pour optimiser les résultats sur le long terme.  
+II. Présentation de l’entreprise  
+Pixel est une société de services numériques spécialisée dans la conception et le 
+déploiement de solutions web et cloud.  
+• Secteurs d’activité :  développement d’applications front -end (React) et back -end 
+(.NET Core)  
+• Expertise IA & Cloud :  intégration de modèles d’intelligence artificielle, MLOps 
+(MLflow) et hébergement sur Azure  • Approche DevOps :  conteneurisation avec Docker pour faciliter les déploiements et 
+garantir la scalabilité  
+• Mission :  accompagner ses clients dans la digitalisation et l’automatisation de leurs 
+process métiers grâce à des technologies modernes et éprouvées.  
+III. Cahier des charges  
+1.Fonctionnalités attendues  
+➢ Upload de PDF et gestion des erreurs.  
+➢ Extraction OCR avancée (texte, tableaux, images).  
+➢ Classification IA avec score de confiance.  
+➢ Visualisation et export des résultats.  
+➢ Suivi des performances des modèles.  
+2.Technologies Choisies  
+Frontend :  
+• React.js – Choisi pour sa popularité, sa rapidité et sa compatibilité 
+avec les interfaces dynamiques.   
+Backend :  
+• .NET Core  – Pour ses performances et sa facilité d'intégration avec 
+des services externes.   
+Extraction de données :  
+• Azure Form Recognizer  – API performante pour l’extraction de 
+contenu structuré depuis les documents PDF (avec OCR avancé).   
+Classification :  
+• Modèles Hugging Face (BERT fine -tuné) – Pour une 
+classification basée sur des modèles préentraînés et 
+personnalisables.   
+IA/ML (Module Python) :  
+• Python (FastAPI)  – Pour centraliser l’intelligence du système, faire les 
+appels aux API IA, gérer les pré/post -traitements et communiquer 
+avec le backend via API REST.   
+MLOps :  
+• MLflow – Pour la gestion, le suivi et le versionnement des 
+modèles.   
+Conteneurisation :  
+• Docker – Permet l’isolation du module IA, simplifie le 
+déploiement et la scalabilité.   
+Cloud :  
+• Azure – Pour l’hébergement des services, API, modèles, et 
+gestion des données.   
+IV. Architecture et Conception de l'API  
+1. Composants Principaux  
+• Interface Utilisateur  : Développée en React pour permettre l'importation de fichiers 
+PDF et l'affichage des résultats.  
+• Backend  .Net : Gère les communications entre frontend et service IA, les 
+utilisateurs, la sécurité.  
+• Service d’Extraction  : Utilisation d'Azure Form Recognizer pour analyser les PDFs et 
+extraire le contenu textuel et les métadonnées.  
+• Service de Classification  : Appel d'une API basée sur un modèle Hugging Face fine -
+tuné (BERT) pour déterminer le type du document et fournir un score de confiance.  
+• MLflow : Intégration de MLflow pour le tracking, le versionnage et le déploiement 
+des modèles de classification.  
+• Docker :  Conteneurisation du service Python IA.  
+• Azure Cloud Infrastructure :  Orchestration et hébergement global du système.  
+2. Flux de Données (détaillé)  
+1. L’utilisateur importe un document PDF via l’interface React.  
+2. Le backend .NET reçoit le fichier, le transmet au Service Python IA . 
+3. Ce module IA Python  appelle :  
+o Azure Form Recognizer pour extraire les textes, tableaux, métadonnées.  
+o Puis applique un modèle de classification (Hugging Face)  pour déterminer 
+la catégorie du document.  
+4. Le résultat (type + contenu structuré) est renvoyé au backend, puis affiché côté 
+utilisateur.  
+5. Toutes les métriques, modèles testés et résultats peuvent être tracés via MLflow. 
+3. Schéma de l'Architecture  
+    
+ 
+4. Suggestion de l'Interface  
+ 
+5. Intégration de MLflow  
+• Rôle de MLflow :  
+o Suivre les expérimentations de classification en enregistrant les 
+hyperparamètres, les métriques et les artefacts.  
+o Gérer un registre de modèles pour pouvoir déployer facilement la version la 
+plus performante du modèle.  
+• Intégration technique :  
+o MLflow est déployé comme un service dans un conteneur Docker et 
+accessible via API.  
+o Le service de classification envoie régulièrement des logs et des résultats à 
+MLflow, permettant ainsi une surveillance continue et la possibilité 
+d’optimiser les modèles via un processus de fine -tuning.  
+6.Environnement de développement  
+➢ IDE Python (VS Code, PyCharm) + SDK .NET (Visual Studio).  
+➢ Docker Compose pour lancer localement Frontend, Backend & Service IA.  
+➢ Connexion à un workspace MLflow local ou hébergé.  
+ 
+
+
+Classification: Other

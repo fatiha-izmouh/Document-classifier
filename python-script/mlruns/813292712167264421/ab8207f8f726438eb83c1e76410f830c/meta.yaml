@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/developpement/document_classifier/python-script/mlruns/813292712167264421/ab8207f8f726438eb83c1e76410f830c/artifacts
+end_time: 1746894476172
+entry_point_name: ''
+experiment_id: '813292712167264421'
+lifecycle_stage: active
+run_id: ab8207f8f726438eb83c1e76410f830c
+run_name: upload_Cahier_charges.pdf_1746894475
+run_uuid: ab8207f8f726438eb83c1e76410f830c
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1746894475671
+status: 3
+tags: []
+user_id: izmou
