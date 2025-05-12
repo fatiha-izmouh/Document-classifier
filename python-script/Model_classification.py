@@ -47,7 +47,7 @@ class DocumentClassifier:
             Tuple of (classification label, confidence score).
         """
         # Start MLflow run for classification
-        with mlflow.start_run(run_name=f"classification_{filename}_{int(time.time())}"):
+        with mlflow.start_run(run_name=f"classification_{filename}_{int(time.time())}", nested=True):
             # Log parameters
             mlflow.log_param("filename", filename)
             mlflow.log_param("text_length", len(text))

@@ -4,10 +4,10 @@ from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional, List
-from Model import detect_text_from_file
+from Model_extraction import detect_text_from_file
 import mlflow
 import time
-from classifier import DocumentClassifier
+from Model_classification import DocumentClassifier
 
 ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg'}
 MAX_FILE_SIZE = 10 * 1024 * 1024  # 10 MB
