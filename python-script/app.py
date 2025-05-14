@@ -59,7 +59,9 @@ async def upload_pdf(file: UploadFile = File(...)):
         raise HTTPException(status_code=400, detail="File size exceeds 10 MB")
 
     # Start MLflow run for text extraction
-    with mlflow.start_run(run_name=f"extraction_{filename}_{int(time.time())}"):
+    run = None
+    try:
+        run = mlflow.start_run(run_name=f"extraction_{filename}_{int(time.time())}")
         # Log parameters
         mlflow.log_param("filename", filename)
         mlflow.log_param("file_size_mb", len(file_data) / (1024 * 1024))
@@ -97,7 +99,7 @@ async def upload_pdf(file: UploadFile = File(...)):
         classification, confidence = classifier.classify(extracted_text, filename)
         confidence_str = str(round(confidence, 4))
 
-        # Log combined results (optional, for reference)
+        # Log combined results
         mlflow.log_param("classification", classification)
         mlflow.log_metric("classification_confidence", float(confidence_str))
 
@@ -107,6 +109,12 @@ async def upload_pdf(file: UploadFile = File(...)):
             classification=classification,
             confidence=confidence_str
         )
+    except Exception as e:
+        mlflow.log_param("error", str(e))
+        raise HTTPException(status_code=500, detail=f"Processing failed: {str(e)}")
+    finally:
+        if run:
+            mlflow.end_run()  # Explicitly end the run
 
 @app.post("/detect-text-multiple/")
 async def detect_text_multiple(
@@ -118,7 +126,9 @@ async def detect_text_multiple(
     total_detections = 0
     total_confidence = 0
 
-    with mlflow.start_run(run_name=f"multi_extraction_{int(time.time())}"):
+    run = None
+    try:
+        run = mlflow.start_run(run_name=f"multi_extraction_{int(time.time())}")
         # Log parameters
         mlflow.log_param("file_count", len(files))
         mlflow.log_param("threshold", threshold)
@@ -198,3 +208,9 @@ async def detect_text_multiple(
             "total_detections": total_detections,
             "results": results
         }
+    except Exception as e:
+        mlflow.log_param("error", str(e))
+        raise HTTPException(status_code=500, detail=f"Processing failed: {str(e)}")
+    finally:
+        if run:
+            mlflow.end_run()  # Explicitly end the run
