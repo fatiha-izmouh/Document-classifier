@@ -9,7 +9,7 @@ import fitz
 import base64
 
 # Initialize EasyOCR reader
-reader = easyocr.Reader(['en'], gpu=False)
+reader = easyocr.Reader(['en','fr'], gpu=False)
 
 def detect_text_from_file(file_data, filename, threshold=0.5, return_images=False):
     """

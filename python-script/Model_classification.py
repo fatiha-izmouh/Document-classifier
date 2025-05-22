@@ -1,106 +1,99 @@
 import torch
-from transformers import AutoTokenizer, AutoModelForSequenceClassification
 import mlflow
 import time
 import os
+import nltk
+from nltk.corpus import stopwords
+import re
+from transformers import CamembertTokenizer, CamembertForSequenceClassification
+
+# Download NLTK stopwords
+nltk.download('stopwords', quiet=True)
+stop_words = set(stopwords.words('french') + stopwords.words('english'))
 
 # Set device
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
-# Categories for classification
-categories = ["Facture", "CV", "Article", "Contrat", "Proposition Commerciale", "Rapport", "Correspondance", "Autre"]
-
+model_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src", "camembert_document_classifier"))
 class DocumentClassifier:
-    def __init__(self, model_path="distilbert-base-multilingual-cased"):
+    def __init__(self, model_path=model_path):
         """
-        Initialize the DistilBERT classifier.
+        Initialize the CamemBERT classifier.
         Args:
-            model_path: Path to the pre-trained or fine-tuned model.
+            model_path: Path to the fine-tuned CamemBERT model.
         """
-        # Set MLflow tracking URI and experiment for classification
+        # Set MLflow tracking URI and experiment
         mlflow.set_tracking_uri("file:///C:/developpement/document_classifier/python-script/mlruns")
         mlflow.set_experiment("Document_Classification")
 
         try:
-            self.tokenizer = AutoTokenizer.from_pretrained(model_path)
-            self.model = AutoModelForSequenceClassification.from_pretrained(
-                model_path, num_labels=len(categories)
-            ).to(device)
+            self.tokenizer = CamembertTokenizer.from_pretrained(model_path)
+            self.model = CamembertForSequenceClassification.from_pretrained(model_path).to(device)
             self.model.eval()
+            self.categories = list(self.model.config.id2label.values())  # e.g., ["attestation", "devis", "facture"]
 
             # Log model parameters to MLflow
             with mlflow.start_run(run_name=f"model_init_{int(time.time())}"):
-                mlflow.log_param("model_name", model_path)
-                mlflow.log_param("num_labels", len(categories))
+                mlflow.log_param("model_name", "camembert-base")
+                mlflow.log_param("num_labels", len(self.categories))
                 mlflow.log_param("device", str(device))
+                mlflow.log_param("categories", self.categories)
         except Exception as e:
             print(f"Error loading model: {str(e)}")
             raise
 
+    def preprocess_text(self, text):
+        """
+        Preprocess text: lowercase, remove special characters, and remove stopwords.
+        """
+        if not isinstance(text, str):
+            return ""
+        text = text.lower()
+        text = re.sub(r'[^a-zA-Zà-ÿ\s]', '', text)
+        text = ' '.join(text.split())
+        text = ' '.join(word for word in text.split() if word not in stop_words)
+        return text
+
     def classify(self, text: str, filename: str = "unknown") -> tuple[str, float]:
         """
-        Classify the input text using DistilBERT.
+        Classify the input text using CamemBERT.
         Args:
             text: The text to classify.
             filename: Name of the file being processed (for logging).
         Returns:
             Tuple of (classification label, confidence score).
         """
-        # Start MLflow run for classification
         with mlflow.start_run(run_name=f"classification_{filename}_{int(time.time())}", nested=True):
             # Log parameters
             mlflow.log_param("filename", filename)
             mlflow.log_param("text_length", len(text))
 
             try:
-                # Measure processing time
                 start_time = time.time()
+                text = self.preprocess_text(text)
+                if not text.strip():
+                    mlflow.log_param("error", "No valid text after preprocessing")
+                    return "Inconnu", 0.0
 
-                # Chunk text to handle long inputs
-                max_length = 512
-                inputs = self.tokenizer(text, padding=False, truncation=False, return_tensors="pt")
-                input_ids = inputs["input_ids"][0]
-                attention_mask = inputs["attention_mask"][0]
+                # Tokenize
+                inputs = self.tokenizer(
+                    text,
+                    truncation=True,
+                    padding=True,
+                    max_length=512,
+                    return_tensors="pt"
+                ).to(device)
 
-                # Log whether chunking is needed
-                mlflow.log_param("requires_chunking", len(input_ids) > max_length)
-
-                if len(input_ids) <= max_length:
-                    inputs = {
-                        "input_ids": input_ids.unsqueeze(0).to(device),
-                        "attention_mask": attention_mask.unsqueeze(0).to(device)
-                    }
-                    with torch.no_grad():
-                        outputs = self.model(**inputs)
-                        logits = outputs.logits
-                        probs = torch.softmax(logits, dim=-1)
-                        pred_id = torch.argmax(probs, dim=-1).item()
-                        confidence = probs[0, pred_id].item()
-                    classification = categories[pred_id]
-                else:
-                    # Chunking for long sequences
-                    stride = 256  # Overlap to maintain context
-                    all_probs = []
-                    for i in range(0, len(input_ids), stride):
-                        end = min(i + max_length, len(input_ids))
-                        chunk_ids = input_ids[i:end].unsqueeze(0).to(device)
-                        chunk_mask = attention_mask[i:end].unsqueeze(0).to(device)
-                        with torch.no_grad():
-                            outputs = self.model(input_ids=chunk_ids, attention_mask=chunk_mask)
-                            logits = outputs.logits
-                            probs = torch.softmax(logits, dim=-1)
-                            all_probs.append(probs)
-
-                    # Average probabilities across chunks
-                    avg_probs = torch.mean(torch.stack(all_probs), dim=0)
-                    pred_id = torch.argmax(avg_probs, dim=-1).item()
-                    confidence = avg_probs[0, pred_id].item()
-                    classification = categories[pred_id]
-
-                # Calculate processing time
-                processing_time = time.time() - start_time
+                # Classify
+                with torch.no_grad():
+                    outputs = self.model(**inputs)
+                    logits = outputs.logits
+                    probs = torch.softmax(logits, dim=-1)
+                    pred_id = torch.argmax(probs, dim=-1).item()
+                    confidence = probs[0, pred_id].item()
+                    classification = self.categories[pred_id]
 
                 # Log metrics
+                processing_time = time.time() - start_time
                 mlflow.log_metric("classification_confidence", confidence)
                 mlflow.log_metric("processing_time_seconds", processing_time)
 
@@ -111,12 +104,9 @@ class DocumentClassifier:
                 mlflow.log_artifact("classification_result.txt")
                 os.remove("classification_result.txt")
 
-                # Log classification as parameter
                 mlflow.log_param("classification", classification)
-
                 return classification, confidence
             except Exception as e:
                 print(f"Error during classification: {str(e)}")
-                # Log error
                 mlflow.log_param("error", str(e))
                 return "Inconnu", 0.0
