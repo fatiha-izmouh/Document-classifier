@@ -1,4 +1,3 @@
-
 import React, { useState, useRef } from 'react';
 
 interface UploadBoxProps {
@@ -31,8 +30,10 @@ const UploadBox: React.FC<UploadBoxProps> = ({ onFileUpload }) => {
   };
 
   const validateFile = (file: File): boolean => {
-    if (!file.type.includes('pdf')) {
-      setError('Please upload a PDF file');
+    const allowedExtensions = ['pdf', 'png', 'jpg', 'jpeg'];
+    const extension = file.name.split('.').pop()?.toLowerCase();
+    if (!extension || !allowedExtensions.includes(extension)) {
+      setError('Please upload a file in PDF, PNG, JPG, or JPEG format');
       return false;
     }
     
@@ -88,7 +89,7 @@ const UploadBox: React.FC<UploadBoxProps> = ({ onFileUpload }) => {
         type="file"
         ref={fileInputRef}
         onChange={handleFileChange}
-        accept=".pdf"
+        accept=".pdf,.png,.jpg,.jpeg"
         className="hidden"
         id="file-upload"
       />
@@ -100,23 +101,23 @@ const UploadBox: React.FC<UploadBoxProps> = ({ onFileUpload }) => {
           </svg>
         </div>
         <h3 className="text-lg font-medium">
-          {isDragging ? "Drop your PDF here" : "Upload Document"}
+          {isDragging ? "Drop your file here" : "Upload Document"}
         </h3>
         <p className="text-sm text-gray-500 mt-1 mb-4">
-          Drag and drop a PDF file here, or click to browse
+          Drag and drop a PDF, PNG, JPG, or JPEG file here, or click to browse
         </p>
         <button
           type="button"
           onClick={handleButtonClick}
           className="bg-blue-600 text-white hover:bg-blue-700 px-4 py-2 rounded-md font-medium transition-colors"
         >
-          Select PDF
+          Select File
         </button>
         
         {error && <p className="mt-3 text-sm text-red-600">{error}</p>}
         
         <p className="mt-4 text-xs text-gray-500">
-          Supported format: PDF (max 10MB)
+          Supported formats: PDF, PNG, JPG, JPEG (max 10MB)
         </p>
       </div>
     </div>

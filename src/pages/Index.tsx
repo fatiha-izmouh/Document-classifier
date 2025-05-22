@@ -60,6 +60,7 @@ const Index = () => {
         extractedText: data.content || 'No text extracted',
         classification: data.classification || 'Unknown',
         confidence: data.confidence || '0.0',
+        fields: data.fields || {} // Include extracted fields
       };
 
       console.log('Setting result:', actualResult);
