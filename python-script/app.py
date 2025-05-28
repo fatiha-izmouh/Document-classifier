@@ -28,7 +28,7 @@ mlflow.set_tracking_uri("file:///C:/developpement/Document-classifier/python-scr
 mlflow.set_experiment("Document_Text_Extraction")
 
    # Initialize the classifier with absolute path
-model_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src", "camembert_document_classifier"))
+model_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src", "roberta_base_classifier"))
 classifier = DocumentClassifier(model_path=model_path)
 
    # Define necessary fields for each document type

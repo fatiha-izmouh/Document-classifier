@@ -40,4 +40,4 @@ __pycache__/
 # Environment and config
 .env
 # Ignore custom model directory
-src/camembert_document_classifier/
+src/roberta_base_classifier/

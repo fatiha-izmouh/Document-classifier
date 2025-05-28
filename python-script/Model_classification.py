@@ -5,7 +5,7 @@ import os
 import nltk
 from nltk.corpus import stopwords
 import re
-from transformers import CamembertTokenizer, CamembertForSequenceClassification
+from transformers import RobertaTokenizer, RobertaForSequenceClassification
 
 # Download NLTK stopwords
 nltk.download('stopwords', quiet=True)
@@ -13,27 +13,23 @@ stop_words = set(stopwords.words('french') + stopwords.words('english'))
 
 # Set device
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-model_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src", "camembert_document_classifier"))
+model_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src", "roberta_base_classifier"))
 class DocumentClassifier:
     def __init__(self, model_path=model_path):
-        """
-        Initialize the CamemBERT classifier.
-        Args:
-            model_path: Path to the fine-tuned CamemBERT model.
-        """
+        
         # Set MLflow tracking URI and experiment
         mlflow.set_tracking_uri("file:///C:/developpement/document_classifier/python-script/mlruns")
         mlflow.set_experiment("Document_Classification")
 
         try:
-            self.tokenizer = CamembertTokenizer.from_pretrained(model_path)
-            self.model = CamembertForSequenceClassification.from_pretrained(model_path).to(device)
+            self.tokenizer = RobertaTokenizer.from_pretrained(model_path)
+            self.model = RobertaForSequenceClassification.from_pretrained(model_path).to(device)
             self.model.eval()
-            self.categories = list(self.model.config.id2label.values())  # e.g., ["attestation", "devis", "facture"]
+            self.categories = list(self.model.config.id2label.values())  
 
             # Log model parameters to MLflow
             with mlflow.start_run(run_name=f"model_init_{int(time.time())}"):
-                mlflow.log_param("model_name", "camembert-base")
+                mlflow.log_param("model_name", "Roberta")
                 mlflow.log_param("num_labels", len(self.categories))
                 mlflow.log_param("device", str(device))
                 mlflow.log_param("categories", self.categories)
@@ -55,7 +51,7 @@ class DocumentClassifier:
 
     def classify(self, text: str, filename: str = "unknown") -> tuple[str, float]:
         """
-        Classify the input text using CamemBERT.
+        Classify the input text using Roberta.
         Args:
             text: The text to classify.
             filename: Name of the file being processed (for logging).
