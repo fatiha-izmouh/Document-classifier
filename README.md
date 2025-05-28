@@ -9,7 +9,7 @@ This application allows users to upload PDF or image documents, extract text usi
 - **Frontend:** React.js
 - **Backend:** FastAPI (Python)
 - **OCR Engine:** EasyOCR + PyMuPDF (fallback to image-based OCR)
-- **Classification Model:** DistilBERT (Hugging Face Transformers)
+- **Classification Model:** ROBERTA (Hugging Face Transformers)
 - **Containerization:** Docker + Docker Compose
 - **Model Management (optional):** MLflow
 
