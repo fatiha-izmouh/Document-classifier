@@ -36,8 +36,8 @@ This application allows users to upload PDF or image documents, extract text usi
 ### 📦 Using Docker (Recommended)
 
 ```bash
-git clone https://github.com/yourusername/doc-processing-app.git
-cd doc-processing-app
+git clone https://github.com/fatiha-izmouh/Document-classifier.git
+cd Document-classifier
 docker-compose up --build
 
 
