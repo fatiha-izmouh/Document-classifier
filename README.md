@@ -1,43 +1,52 @@
 # 📄 Document Extraction & Classification App
 
-This application allows users to upload PDF or image documents, extract text using OCR, and classify the document type using a pre-trained NLP model. It is built with a modern stack using React, FastAPI, EasyOCR, and Hugging Face Transformers.
-
----
-
-## 🧰 Tech Stack
-
-- **Frontend:** React.js
-- **Backend:** FastAPI (Python)
-- **OCR Engine:** EasyOCR + PyMuPDF (fallback to image-based OCR)
-- **Classification Model:** ROBERTA (Hugging Face Transformers)
-- **Containerization:** Docker + Docker Compose
-- **Model Management (optional):** MLflow
-
----
-
-## 🚀 Features
-
-- Drag & drop PDF/image upload
-- Intelligent OCR extraction (text-based fallback to image-based)
-- Document classification (e.g., CV, Invoice, Report)
-- Real-time results displayed with download options
-
----
-
 ## 🛠️ Setup Instructions
 
 ### ✅ Prerequisites
 
-- [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/install/)
-- (Alternative) Python 3.9+ and Node.js 18+ if installing manually
+- Python 3.9+  
+- Node.js 18+  
 
 ---
 
-### 📦 Using Docker (Recommended)
+### 🧪 Steps to Run
 
+1. **Clone the project**
 ```bash
 git clone https://github.com/fatiha-izmouh/Document-classifier.git
 cd Document-classifier
-docker-compose up --build
+```
 
+2. **Start the frontend**
+```bash
+npm install
+npm run dev
+```
 
+3. **Start the backend**
+```bash
+cd python-script
+python -m venv venv
+.\venv\Scripts\activate         # On Windows
+# Or use: source venv/bin/activate  (on Linux/macOS)
+
+pip install -r requirements.txt
+uvicorn app:app --reload
+```
+
+---
+
+### 📁 Important Notes
+
+Some files are too large for GitHub and are therefore not included in this repo.
+
+➡️ Please download them from this Google Drive link:  
+🔗 **https://drive.google.com/drive/folders/1Ld8Pn3wgDDDwGU8P09K4vRWrYWS6ep8R?usp=sharing)**
+
+📂 Then place the downloaded folder inside the following directory:
+
+```
+.\src\
+```
+
+Make sure the folder `roberta_base_classifier` is correctly placed under `src/` as expected by the application.
