@@ -1,12 +1,86 @@
-# React + Vite
+# 📄 Document Extraction & Classification App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## ✅ Prerequisites
 
-Currently, two official plugins are available:
+- [.NET 8 SDK](https://dotnet.microsoft.com/en-us/download)
+- **PostgreSQL** (e.g., version 15+)
+- Python 3.9+
+- Node.js 18+
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## 🧪 Steps to Run
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 0. Install & Set Up PostgreSQL
+```bash
+# Download PostgreSQL from: https://www.postgresql.org/download/
+# Create a database ( doc_classifier)
+# Create a user and grant access to the database
+
+```
+
+➡️ Update the connection string in:
+```
+backend/appsettings.json
+```
+
+```json
+"ConnectionStrings": {
+  "DefaultConnection": "Host=localhost;Port=5432;Database=doc_classifier;Username=myuser;Password=mypassword"
+}
+```
+
+---
+
+### 1. Clone the project
+```bash
+git clone https://github.com/fatiha-izmouh/Document-classifier.git
+cd Document-classifier
+```
+
+---
+
+### 2. Setup and run the frontend
+```bash
+npm install
+npm run dev
+```
+
+---
+
+### 3. Setup and run the Python backend
+```bash
+cd python-script
+python -m venv venv
+.\venv\Scripts\activate         # On Windows
+# Or: source venv/bin/activate  (Linux/macOS)
+pip install -r requirements.txt
+uvicorn app:app --reload
+```
+
+---
+
+### 4. Setup and run the .NET backend
+```bash
+cd ../backend
+dotnet restore
+dotnet ef database update
+dotnet run
+```
+
+---
+
+## 📁 Important Notes
+
+Some files are too large for GitHub and are therefore not included in this repo.
+
+➡️ Please download them from this Google Drive link:  
+🔗 https://drive.google.com/drive/folders/12UQmevYM5LQwMAZADbEFc59fUO5xqu_w?usp=sharing
+
+📂 Then place the downloaded folder inside the following directory:
+
+```
+.\src\
+```
+
+Make sure the folder `roberta_base_classifier` is correctly placed under `src/` as expected by the application.
