@@ -1,0 +1,44 @@
+Extracted Text:
+COMPÉTENCES TECHNIQUESFORMATION ACADÉMIQUEEXPÉRIENCES PROFESSIONNELLESPROFILE
+PROJETS ACADÉMIQUES
+P r o g r a m m a t i o n : Python, Java, Php, Laravel, Angular, ReactJS, Dart, Flutter, C, C++, SQL.
+Outils & technologies: MySql, Oracle, Git.
+AI & Analytics: Machine Learning, Deep Learning, NLP.
+Langues : Arabe, Français, Anglais.2022 - 2023 F a c u l t é  P o l y d i s c i p l i n a i r e - T A R O U D A N T
+License professionnelle en génie informatique2023 - 2025 U n i v e r s i a p o l i s  -  U n i v e r s i t é  I n t e r n a t i o n a l e  d ' A g a d i r
+Diplôme d’ingénieur en informatique, Big data et intelligence artificielleA v r i l   2 0 2 2  -  J u i n   2 0 2 2 S t a g e  d ’ o b t e n t i o n  d u  D U T  -  G I S M A  I T  S O L U T I O N S  |  A g a d i r
+Développement Full Stack
+Chez GISMA IT SOLUTIONS, j’ai mené deux projets innovants pour la gestion éducative. Pour une
+crèche, j’ai mis en place une application web en PHP/MySQL facilitant les inscriptions et la
+gestion des données, tandis que pour une école, j’ai conçu une application desktop en C#
+destinée à optimiser l’administration des contrats enseignants et les processus internes.A v r i l  2 0 2 3  -  J u i n  2 0 2 3 S t a g e  d ’ o b t e n t i o n  d u  l i c e n c e   -   L ’ A R E F   |  A g a d i r
+Développement Full Stack
+J’ai également élaboré, pour l’Académie Régionale de l’Éducation et Formation d’Agadir, une
+application web en Laravel dédiée à la gestion des ressources pédagogiques et administratives,
+intégrant des fonctionnalités avancées d’authentification et de gestion des utilisateurs.J u i l l e t  2 0 2 4  -  O c t o b r e  2 0 2 4 S t a g e  P F A  -   I N T C S O L U T I O N S   |  A g a d i r
+Développement Full Stack
+Au sein d’INTCSOLUTIONS, j’ai orchestré la création d’un site web pour l’association Shmaroc,
+alliant une interface publique attrayante à un tableau de bord de gestion de bases de données.
+En tirant parti de Laravel pour concevoir des fonctionnalités essentielles, j’ai optimisé les
+performances avec MySQL et affiné l’expérience utilisateur grâce à jQuery.Future ingénieure en génie informatique, spécialisée en Big Data et Intelligence Artificielle, je combine
+une passion pour l’innovation et compétences en développement full stack (Laravel, React, Flutter) avec
+expertise en Machine Learning et Deep Learning. À la recherche d’un stage PFE, je suis prête à relever de
+nouveaux défis technologiques et à contribuer activement à des projets ambitieux.IZMOUH FATIHA
+P h o n e :
+E m a i l :  
+L i n k e d I n :
+G i t H u b :+212 6 59 44 96 13
+izmouh.fatiha03@gmail.com
+http://www.linkedin.com/in/fatiha-izmouh
+https://github.com/fatiha-izmouh
+2020 - 2022 E c o l e  S u p é r i e u r  D e  T e c h n o l o g i e  -  G U E L M I M  
+Diplôme Universitaire de Technologie (DUT) en InformatiqueSalon Feecra Expo 2024: Conception d’un dispositif intelligent de mesure de débit d’eau et
+développement d’une application mobile & web pour la gestion de l’eau.
+Détection de tumeurs: Modèle UNet avec perte Focal pour une segmentation précise en
+imagerie médicale.
+Traduction automatique: Optimisation d’un modèle traduisant cinq langues à partir de données
+multilingues alignées.
+Signalisation routière: Détection et classification de panneaux via vision par ordinateur et CNN.
+
+Classification: Proposition Commerciale
+Confidence: 0.1427

@@ -1,0 +1,147 @@
+Extracted Text:
+BENCHMARK POUR LE 
+TRAITEMENT INTELLIGENT 
+DES DOCUMENTS
+DESCRIPTION DU PROJET
+2Contexte :
+•Importation via uneinterface ( développée enReact) de documents PDF, lesquels
+peuvent être standards oucontenir des images.
+•Besoin de connaître le type du document et d’extraire précisément le contenu .
+•Calcul d’un pourcentage de similarité pour valider l’extraction par rapport à l’original .
+Objectifs :
+•Mettre enœuvre un algorithme performant de reconnaissance et de classification 
+pour extraire les éléments textuels et graphiques .
+•Utiliser des modèles ousolutions existants et éprouvés pour garantir unehaute 
+précision .
+•Assurer uneintégration aisée avec le back -end .NET via API REST.PROBLÉMATIQUE
+Challenge principal :
+•Comment extraire de manière fiable et rapide les informations 
+pertinentes à partir de documents non structurés ou semi -
+structurés tout en gérant la diversité des formats (texte, 
+images, tableaux, etc.) ?
+3Points clés :
+•Variabilité des formats et de la qualité des documents.
+•Limites des outils OCR traditionnels face aux documents complexes.
+•Besoin d’une intégration fluide entre l’extraction et la classification 
+pour prendre en compte le contexte des données extraites.
+•Nécessité d’évaluer et de valider la similarité entre le contenu extrait 
+et l’original pour garantir la qualité des données.
+•Intégration efficace des solutions API au sein d’une architecture 
+existante.
+SOLUTION 
+Concept global :
+•Une plateforme intégrée basée sur Python, combinant des modules 
+d’OCR, de parsing , d’extraction et de classification pour traiter 
+intelligemment les documents.
+4Architecture Générale :
+1.Importation & Prétraitement : Module dédié à l’extraction du texte et des métadonnées.
+2.Extraction / Parsing :Utilisation d’un moteur OCR intelligent pour extraire 
+automatiquement le texte, les tableaux et les métadonnées, même à partir d’images.
+3.Classification : Identification automatique du type de document grâce à un modèle de 
+machine learning entraîné pour reconnaître différentes catégories.
+4.Intégration & Reporting :Structuration des données extraites et génération de résultats 
+exploitables via des dashboards , rapports ou systèmes métiers, avec indicateurs de 
+performance.
+Bénéfices attendus :
+•Gain de temps, réduction des erreurs, automatisation de 
+tâches répétitives.BENCHMARK DES TECHNOLOGIES 
+DOCUMENT PARSING & EXTRACTION6Solution Azure Form 
+RecognizerTesseract + Layout 
+ParserGoogle Document AI
+Gratuit / Payant 💰Payant 
+(consommation API, 
+~1-2$ / 1000 pages)✅Gratuit💰Payant
+(~0.03$/page)
+Technologies utiliséesOCR, Layout analysis , 
+ML intégréTesseract OCR, Deep 
+Layout Parser 
+(PyTorch )Vision OCR, NLP pré-
+entraîné
+Environnement 
+nécessaireAzure CloudLocal ou cloud avec 
+conteneurisationGoogle Cloud
+Langage à utiliserREST API, .NET, 
+PythonPython
+REST API, Python
+Input / Output
+Cloud API, accessible
+via Azure servicePipeline Python 
+personnalisable (OCR 
+➜Layout➜Post-
+traitement)API REST sur Google 
+Cloud Platform
+ArchitecturePDF/Image ➜JSON 
+(fields + layout)PDF/Image ➜Texte 
+brut + structure JSONPDF/Image ➜JSON 
+(structure + texte 
+enrichi)BENCHMARK DES TECHNOLOGIES 
+DOCUMENT CLASSIFICATION8SolutionBERT Fine -tuné (via 
+Azure ML)Modèle Hugging Face 
+ClassifierPipeline Classif . 
+Personnalisé
+Gratuit / Payant ✅Gratuit si usage 
+local, 💰Payant sur 
+Azure ( compute )✅Gratuit
+✅Gratuit
+Technologies utiliséesBERT, NLP 
+TransformerTransformers (BERT, 
+RoBERTa , etc.)Tfidf + SVM ou 
+Transformer finement 
+ajusté
+Environnement 
+nécessaireAzure ML ou 
+environnement local + 
+GPULocal, cloud ou 
+conteneur DockerLocal, API ou
+conteneur
+Langage à utiliser Python (transformers) Python Python ou.NET
+Input / Output Fine-tuning sur 
+données internes via 
+pipeline Azure ML ou 
+localAPI REST ou script 
+Python avec modèle 
+préentraîné + fine -
+tuningPipeline NLP classique 
+(vectorisation ➜
+classification)
+Architecture
+Texte ➜CatégorieTexte ➜Catégorie 
+avec score de 
+confianceTexte brut ➜Catégorie
++ scorePROPOSITION DE 
+SOLUTION 
+RECOMMANDÉE & FLOW 
+DU PROJET
+PROPOSITION D’UN FLOW DE 
+DÉVELOPPEMENT D’INTERFACE
+Azure Form Recognizer
+OCR + Extraction
+ML flow
+Tracking & Model Registry
+API Classification
+Model Hugging Face / BERT Fine -tuné
+API REST
+.NET Core
+Interface Utilisateur
+React –Upload PDF
+Stockage
+Azure Blob / SQL
+11Bas
+e de 
+don
+née
+s
+Infrastructure
+Conteneurisation et Orchestration
+Frent -end 
+ Back -end
+Model Tracking & 
+Versioning
+Framework & Biblithèque IA
+Classification 
+Service
+Base de donnéesExtraction Service
+12THANK YOU
+13
+
+Classification: Other

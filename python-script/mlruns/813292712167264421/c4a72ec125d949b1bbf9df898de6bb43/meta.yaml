@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/developpement/document_classifier/python-script/mlruns/813292712167264421/c4a72ec125d949b1bbf9df898de6bb43/artifacts
+end_time: 1746895588838
+entry_point_name: ''
+experiment_id: '813292712167264421'
+lifecycle_stage: active
+run_id: c4a72ec125d949b1bbf9df898de6bb43
+run_name: upload_supra.pdf_1746895584
+run_uuid: c4a72ec125d949b1bbf9df898de6bb43
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1746895584981
+status: 3
+tags: []
+user_id: izmou

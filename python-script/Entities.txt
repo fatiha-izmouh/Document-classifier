@@ -1,0 +1,44 @@
+devis:[Numéro Client,
+,Date de devis 
+,Adresse des travaux
+,Votre contact 
+,Adresse
+,Tel
+,mail
+,zone
+,Type de chauffage
+,Siret
+,Parcelle
+,Type de logement
+,Précarité
+,BAR-TH-129
+,Marque
+,Référence
+,Kwh Cumac
+,Prime CEE
+,Caractéristiques techniques
+,Fonctions
+,Délais d'exécution des travaux
+,Total H.T
+,Total TVA
+,Total TTC
+,Reste à payer]
+facture:
+[ Numéro Client,
+Date de facture,
+Devis n°,
+Date de fin des travaux,
+Adresse des travaux,
+Tél,
+E-mail,
+Zone,
+Type de chauffage,
+Type de logement,
+ADRESSE DES TRAVAUX,
+Total H.T,
+Total TVA,
+Total TTC,
+Prime CEE,
+Acompte,
+Reste à payer
+]
