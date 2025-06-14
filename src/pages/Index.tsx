@@ -3,6 +3,7 @@ import Header from '../components/Header';
 import UploadBox from '../components/UploadBox';
 import ResultViewer from '../components/ResultViewer';
 import DocumentViewer from '../components/DocumentViewer';
+import { Database } from 'lucide-react';
 
 const Index = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -97,6 +98,12 @@ const Index = () => {
     link.click();
 
     alert(`Saved results for ${result.filename}`);
+  };
+
+  const handleSaveToDatabase = () => {
+    if (!result) return;
+    // This is a placeholder for the actual database logic
+    alert("This will save the results to a database. We can implement this in the next step!");
   };
 
   return (
@@ -195,30 +202,37 @@ const Index = () => {
               )}
 
               {result && (
-                <div className="space-y-8">
-                  <ResultViewer result={result} />
-                  <div className="flex justify-end">
-                    <button
-                      onClick={downloadJSON}
-                      className="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded shadow transition"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5 mr-2 inline-block"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                      Download JSON
-                    </button>
-                  </div>
-                </div>
-              )}
+  <div className="space-y-8">
+    <ResultViewer result={result} />
+    <div className="flex justify-end space-x-4"> {/* Added space-x-4 for gap */}
+      <button
+        onClick={downloadJSON}
+        className="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded shadow transition"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-5 w-5 mr-2 inline-block"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fillRule="evenodd"
+            d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+            clipRule="evenodd"
+          />
+        </svg>
+        Download JSON
+      </button>
+      <button
+        onClick={handleSaveToDatabase}
+        className="inline-flex items-center bg-teal-500 text-white px-4 py-2 rounded-md hover:bg-teal-600 transition-colors"
+      >
+        <Database className="h-5 w-5 mr-2" />
+        Save to Database
+      </button>
+    </div>
+  </div>
+)}
             </div>
 
             {/* Right Column - Document Viewer */}
