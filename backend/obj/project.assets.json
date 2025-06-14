@@ -3160,11 +3160,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\developpement\\classification_doc\\backend\\backend.csproj",
+      "projectUniqueName": "C:\\developpement\\Document-classifier\\backend\\backend.csproj",
       "projectName": "backend",
-      "projectPath": "C:\\developpement\\classification_doc\\backend\\backend.csproj",
+      "projectPath": "C:\\developpement\\Document-classifier\\backend\\backend.csproj",
       "packagesPath": "C:\\Users\\izmou\\.nuget\\packages\\",
-      "outputPath": "C:\\developpement\\classification_doc\\backend\\obj\\",
+      "outputPath": "C:\\developpement\\Document-classifier\\backend\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\izmou\\AppData\\Roaming\\NuGet\\NuGet.Config",
