@@ -7,5 +7,7 @@ namespace backend.Models
         public string Password { get; set; }
         public string Name { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        public ICollection<Document> Documents { get; set; } = new List<Document>(); 
     }
 }

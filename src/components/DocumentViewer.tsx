@@ -33,7 +33,7 @@ const DocumentViewer: React.FC<DocumentViewerProps> = ({ file }) => {
         <div className="bg-gray-50 rounded-lg overflow-hidden border-2 border-dashed border-gray-200">
           <iframe
             src={fileUrl}
-            className="w-full h-80"
+            className="w-full h-[60vh]"
             title="Document Preview"
           >
             <div className="p-8 text-center">
